@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Pokémon: Pokédex & Lore</title>
+  <title>Mundo Pokémon: Pokédex & Seu Parceiro Ideal</title>
   <style>
     :root {
       --bg-color: #121214;
@@ -36,7 +36,7 @@
     }
 
     header h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -45,20 +45,21 @@
     nav {
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.8rem;
       background: #1a1a1e;
       padding: 1rem;
       position: sticky;
       top: 0;
       z-index: 100;
+      flex-wrap: wrap;
     }
 
     nav button {
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--text);
-      padding: 0.5rem 1.5rem;
-      font-size: 1rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.95rem;
       font-weight: bold;
       border-radius: 20px;
       cursor: pointer;
@@ -84,42 +85,43 @@
       display: block;
     }
 
-    /* Estilização da Tabela Pokédex */
-    .table-responsive {
-      overflow-x: auto;
+    /* Grid da Pokédex */
+    .pokedex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .poke-card {
       background: var(--card-bg);
-      border-radius: 12px;
       border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
+    .poke-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
     }
 
-    th, td {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-
-    th {
-      background-color: #18181b;
-      color: var(--accent);
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-    }
-
-    tr:hover {
-      background-color: #29292e;
-    }
-
-    .poke-img {
-      width: 70px;
-      height: 70px;
+    .poke-card img {
+      width: 120px;
+      height: 120px;
       object-fit: contain;
+    }
+
+    .poke-id {
+      color: var(--subtext);
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .poke-name {
+      font-size: 1.2rem;
+      text-transform: capitalize;
+      margin: 0.3rem 0;
     }
 
     .type-badge {
@@ -130,11 +132,89 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: bold;
-      margin-right: 0.3rem;
-      margin-bottom: 0.2rem;
+      margin: 0.2rem;
     }
 
-    /* Grid dos Mais Fortes */
+    /* Layout: Qual Pokémon é o seu */
+    .partner-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #18181b;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #121214;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .generate-btn:hover {
+      background: #e6b800;
+    }
+
+    /* Cartão de Treinador */
+    .trainer-card {
+      margin-top: 2rem;
+      background: linear-gradient(135deg, #2a2a30 0%, #18181b 100%);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .trainer-card img {
+      width: 160px;
+      height: 160px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      padding: 0.5rem;
+    }
+
+    .trainer-info h3 {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .trainer-info p {
+      color: var(--subtext);
+      margin-top: 0.4rem;
+    }
+
+    /* Mais Fortes & História */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -163,7 +243,6 @@
       margin-bottom: 0.8rem;
     }
 
-    /* História */
     .timeline-item {
       background: var(--card-bg);
       border-left: 4px solid var(--primary);
@@ -171,166 +250,143 @@
       margin-bottom: 1.5rem;
       border-radius: 0 12px 12px 0;
     }
-
-    .timeline-item h3 {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Mundo Pokémon</h1>
-    <p>Tabela Pokédex, Lore Primordial e os Seres Mais Poderosos</p>
+    <p>Pokédex Automática, Descubra seu Parceiro & Lore Primordial</p>
   </header>
 
   <nav>
-    <button class="active" onclick="switchTab('pokedex')">Tabela Pokédex</button>
+    <button class="active" onclick="switchTab('pokedex')">Pokédex</button>
+    <button onclick="switchTab('partner')">Qual Pokémon seria o seu?</button>
     <button onclick="switchTab('strongest')">Os Mais Fortes</button>
-    <button onclick="switchTab('history')">História & Origem</button>
+    <button onclick="switchTab('history')">História & Lore</button>
   </nav>
 
   <div class="container">
     
-    <!-- ABA TABELA POKÉDEX -->
+    <!-- ABA POKÉDEX AUTOMÁTICA -->
     <section id="pokedex" class="tab-content active">
-      <h2 style="margin-bottom: 1rem;">Registros da Pokédex</h2>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>#ID</th>
-              <th>Visual</th>
-              <th>Nome</th>
-              <th>Tipo(s)</th>
-              <th>História / Descrição</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>#0001</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur"></td>
-              <td><strong>Bulbasaur</strong></td>
-              <td><span class="type-badge">Planta</span><span class="type-badge" style="background:#9141ac;">Veneno</span></td>
-              <td>Carrega uma semente nas costas desde o nascimento. À medida que cresce, a semente brota absorvendo os raios solares.</td>
-            </tr>
-            <tr>
-              <td><strong>#0004</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="Charmander"></td>
-              <td><strong>Charmander</strong></td>
-              <td><span class="type-badge">Fogo</span></td>
-              <td>A chama na ponta de sua cauda indica seu estado de saúde e força vital. Se a chama apagar, ele corre sério perigo.</td>
-            </tr>
-            <tr>
-              <td><strong>#0006</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="Charizard"></td>
-              <td><strong>Charizard</strong></td>
-              <td><span class="type-badge">Fogo</span><span class="type-badge" style="background:#89a1f0;">Voador</span></td>
-              <td>Voa pelos céus em busca de oponentes fortes. O fogo intenso de seu sopro derrete pedras e cria grandes queimadas acidentais.</td>
-            </tr>
-            <tr>
-              <td><strong>#0007</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Squirtle"></td>
-              <td><strong>Squirtle</strong></td>
-              <td><span class="type-badge" style="background:#2980b9;">Água</span></td>
-              <td>Sua casca dura protege seu corpo e reduz a resistência na água, permitindo que ele nade em altas velocidades.</td>
-            </tr>
-            <tr>
-              <td><strong>#0025</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu"></td>
-              <td><strong>Pikachu</strong></td>
-              <td><span class="type-badge" style="background:#d4ac0d;">Elétrico</span></td>
-              <td>Armazena eletricidade em suas bolsas nas bochechas. Quando se sente ameaçado, descarrega potentes choques elétricos.</td>
-            </tr>
-            <tr>
-              <td><strong>#0094</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar"></td>
-              <td><strong>Gengar</strong></td>
-              <td><span class="type-badge" style="background:#7d3c98;">Fantasma</span><span class="type-badge" style="background:#9141ac;">Veneno</span></td>
-              <td>Esconde-se nas sombras das pessoas. Quando Gengar está por perto, a temperatura do ambiente cai cerca de 5°C repentinamente.</td>
-            </tr>
-            <tr>
-              <td><strong>#0150</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" alt="Mewtwo"></td>
-              <td><strong>Mewtwo</strong></td>
-              <td><span class="type-badge" style="background:#8e44ad;">Psíquico</span></td>
-              <td>Criado por manipulação genética do DNA de Mew. Sua capacidade de combate foi elevada ao limite, mas faltou-lhe compaixão.</td>
-            </tr>
-            <tr>
-              <td><strong>#0448</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png" alt="Lucario"></td>
-              <td><strong>Lucario</strong></td>
-              <td><span class="type-badge" style="background:#2874a6;">Lutador</span><span class="type-badge" style="background:#7f8c8d;">Aço</span></td>
-              <td>Tem a habilidade de ler as auras de seres vivos a mais de 1 km de distância, compreendendo os pensamentos e sentimentos de outros.</td>
-            </tr>
-            <tr>
-              <td><strong>#0493</strong></td>
-              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png" alt="Arceus"></td>
-              <td><strong>Arceus</strong></td>
-              <td><span class="type-badge" style="background:#7f8c8d;">Normal</span></td>
-              <td>Conhecido como o Pokémon Original. A mitologia afirma que ele nasceu de um ovo no vazio e moldou o universo inteiro.</td>
-            </tr>
-          </tbody>
-        </table>
+      <h2 style="margin-bottom: 1.5rem;">Catálogo Pokédex</h2>
+      <div id="pokedexContainer" class="pokedex-grid">
+        <p style="color: var(--subtext);">Carregando Pokédex...</p>
       </div>
     </section>
 
-    <!-- ABA SERES MAIS FORTES -->
+    <!-- ABA SEU POKÉMON -->
+    <section id="partner" class="tab-content">
+      <div class="partner-section">
+        <h2 style="color: var(--accent); margin-bottom: 0.5rem;">Monte seu Cartão de Treinador</h2>
+        <p style="color: var(--subtext); margin-bottom: 1.5rem;">Descubra e exiba qual Pokémon combina com a sua personalidade!</p>
+        
+        <div class="form-group">
+          <label for="trainerName">Seu Nome de Treinador(a):</label>
+          <input type="text" id="trainerName" placeholder="Ex: Ash Ketchum">
+        </div>
+
+        <div class="form-group">
+          <label for="elementSelect">Qual seu estilo de batalha?</label>
+          <select id="elementSelect">
+            <option value="pikachu">Agressivo e Rápido (Elétrico)</option>
+            <option value="charizard">Poderoso e Impulsivo (Fogo)</option>
+            <option value="lucario">Leal e Focado na Aura (Lutador)</option>
+            <option value="gengar">Estratégico e Mágico (Fantasma)</option>
+            <option value="mewtwo">Analítico e Reservado (Psíquico)</option>
+            <option value="eevee">Adaptável e Flexível (Normal)</option>
+          </select>
+        </div>
+
+        <button class="generate-btn" onclick="generatePartnerCard()">Gerar Meu Cartão Pokémon</button>
+
+        <!-- Resultado do Cartão -->
+        <div id="trainerCardDisplay" style="display: none;" class="trainer-card">
+          <img id="partnerImg" src="" alt="Seu Pokémon">
+          <div class="trainer-info">
+            <h3 id="cardTrainerName">Treinador</h3>
+            <p><strong>Pokémon Parceiro:</strong> <span id="partnerName" style="color: #fff; text-transform: capitalize;"></span></p>
+            <p><strong>Sua Afinidade:</strong> <span id="partnerAura" style="color: var(--accent);"></span></p>
+            <p id="partnerDescription" style="font-size: 0.9rem; margin-top: 0.8rem;"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA MAIS FORTES -->
     <section id="strongest" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos da Franquia</h2>
+      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos</h2>
       <div class="grid">
         <div class="card">
           <h3>1. Arceus</h3>
           <span class="card-tag">O Deus Criador</span>
-          <p>Emergiu de um ovo primordial e moldou o universo com seus mil braços. Capaz de mudar para qualquer tipo e controlar os elementos da criação.</p>
+          <p>O ser original que criou o universo com seus mil braços. Capaz de alterar seu próprio tipo para qualquer elemento existente.</p>
         </div>
         <div class="card">
           <h3>2. Ultra Necrozma</h3>
-          <span class="card-tag">O Devorador de Luz</span>
-          <p>Em sua forma suprema, Necrozma absorve a luz de dimensões inteiras, atingindo níveis de poder que superam lendários comuns.</p>
+          <span class="card-tag">Devorador de Luz</span>
+          <p>Absorve a luz de dimensões inteiras para atingir um nível de energia e força destrutiva sem equivalentes.</p>
         </div>
         <div class="card">
           <h3>3. Mega Rayquaza</h3>
-          <span class="card-tag">O Guardião dos Céus</span>
-          <p>Megaevolui ao devorar meteoritos na estratosfera. É o único capaz de conter a fúria simultânea de Kyogre e Groudon.</p>
-        </div>
-        <div class="card">
-          <h3>4. Dialga & Palkia</h3>
-          <span class="card-tag">Senhores do Tempo e Espaço</span>
-          <p>O batimento cardíaco de Dialga faz o tempo fluir, enquanto a respiração de Palkia estabiliza as dimensões do espaço.</p>
-        </div>
-        <div class="card">
-          <h3>5. Mewtwo</h3>
-          <span class="card-tag">O Pokémon Genético</span>
-          <p>Projetado via engenharia genética a partir de Mew para ser a arma psíquica definitiva e insuperável em combate humano/Pokémon.</p>
+          <span class="card-tag">Guardião dos Céus</span>
+          <p>Alcança a Megaevolução devorando meteoros na estratosfera. O único poderoso o bastante para parar Kyogre e Groudon.</p>
         </div>
       </div>
     </section>
 
-    <!-- ABA HISTÓRIA E ORIGEM -->
+    <!-- ABA HISTÓRIA -->
     <section id="history" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">História da Criação do Universo</h2>
-      
+      <h2 style="margin-bottom: 1.5rem;">Origem do Mundo Pokémon</h2>
       <div class="timeline-item">
-        <h3>A Era da Criação</h3>
-        <p>No início, existia apenas o caos primordial. Do centro desse nada, nasceu Arceus. Logo em seguida, Arceus criou Dialga (Tempo), Palkia (Espaço) e Giratina (Antimatéria). Para equilibrar o espírito dos seres viventes, surgiram Uxie, Mesprit e Azelf.</p>
+        <h3>A Criação Primordial</h3>
+        <p>No início existia apenas o caos. Arceus nasceu e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
       </div>
-
       <div class="timeline-item">
-        <h3>A Formação da Terra</h3>
-        <p>Groudon emergiu das profundezas para erguer a massa terrestre, enquanto Kyogre preencheu os oceanos. O duelo entre ambos quase destruiu o planeta recém-formado até que Rayquaza interveio para adormecê-los.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>A Origem das Espécies</h3>
-        <p>Mew surgiu como o ancestral comum de todas as espécies Pokémon terrestres, contendo o código genético de praticamente todas as criaturas existentes.</p>
+        <h3>A Era de Mew</h3>
+        <p>Mew emergiu carregando o código genético de todas as espécies terrenas, tornando-se o ancestral comum de quase todos os Pokémon.</p>
       </div>
     </section>
 
   </div>
 
   <script>
+    // Dados dos parceiros para a aba interativa
+    const partnersData = {
+      pikachu: {
+        id: 25,
+        aura: "Energia Pura & Velocidade",
+        desc: "Você é movido a entusiasmo! Seu parceiro ideal é super dinâmico e nunca deixa você na mão nos momentos decisivos."
+      },
+      charizard: {
+        id: 6,
+        aura: "Chama Intensa & Determinação",
+        desc: "Sua determinação é imparável. Seu parceiro tem um espírito guerreiro que cresce a cada desafio enfrentado."
+      },
+      lucario: {
+        id: 448,
+        aura: "Aura do Guerreiro & Lealdade",
+        desc: "Você valoriza a justiça e a disciplina. Seu parceiro consegue sentir suas emoções e luta em perfeita sintonia com você."
+      },
+      gengar: {
+        id: 94,
+        aura: "Astúcia & Sombras Místicas",
+        desc: "Você adora ter uma carta na manga! Seu parceiro usa a inteligência e o bom humor para surpreender qualquer rival."
+      },
+      mewtwo: {
+        id: 150,
+        aura: "Mente Brilhante & Poder Absoluto",
+        desc: "Sua mente é focada e analítica. Seu parceiro possui o maior potencial psíquico da história, temido por muitos."
+      },
+      eevee: {
+        id: 133,
+        aura: "Potencial Infinito & Adaptabilidade",
+        desc: "Você se adapta a qualquer situação. Seu parceiro possui infinitas possibilidades de evolução para caminhar ao seu lado."
+      }
+    };
+
+    // Alternar Abas
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
@@ -338,6 +394,61 @@
       document.getElementById(tabId).classList.add('active');
       event.currentTarget.classList.add('active');
     }
+
+    // Carregar Pokédex Automaticamente
+    async function loadPokedex() {
+      const container = document.getElementById('pokedexContainer');
+      const totalPokemon = 24; // Carrega os primeiros 24 pokémons automaticamente
+
+      let html = '';
+      for (let i = 1; i <= totalPokemon; i++) {
+        try {
+          const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`);
+          const data = await res.json();
+          
+          const types = data.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join('');
+          const formattedId = `#${String(data.id).padStart(4, '0')}`;
+          const imgUrl = data.sprites.other['official-artwork'].front_default;
+
+          html += `
+            <div class="poke-card">
+              <span class="poke-id">${formattedId}</span>
+              <img src="${imgUrl}" alt="${data.name}">
+              <h3 class="poke-name">${data.name}</h3>
+              <div>${types}</div>
+            </div>
+          `;
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      container.innerHTML = html;
+    }
+
+    // Gerar Cartão de Treinador
+    async function generatePartnerCard() {
+      const nameInput = document.getElementById('trainerName').value.trim();
+      const choice = document.getElementById('elementSelect').value;
+      const cardDisplay = document.getElementById('trainerCardDisplay');
+
+      const name = nameInput ? nameInput : "Treinador Sem Nome";
+      const partnerInfo = partnersData[choice];
+
+      // Busca imagem oficial na PokéAPI
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${partnerInfo.id}`);
+      const data = await res.json();
+
+      document.getElementById('cardTrainerName').innerText = name;
+      document.getElementById('partnerName').innerText = data.name;
+      document.getElementById('partnerImg').src = data.sprites.other['official-artwork'].front_default;
+      document.getElementById('partnerAura').innerText = partnerInfo.aura;
+      document.getElementById('partnerDescription').innerText = partnerInfo.desc;
+
+      cardDisplay.style.display = 'flex';
+    }
+
+    // Iniciar Pokédex ao carregar a página
+    window.onload = loadPokedex;
   </script>
 </body>
 </html>
