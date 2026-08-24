@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Pokémon: Pokédex & Seu Parceiro Ideal</title>
+  <title>Mundo Pokémon: Pokédex Completa & Comparador</title>
   <style>
     :root {
       --bg-color: #121214;
@@ -13,6 +13,7 @@
       --text: #ffffff;
       --subtext: #a8a8b3;
       --border: #323238;
+      --win-color: #2ecc71;
     }
 
     * {
@@ -88,15 +89,15 @@
     /* Grid da Pokédex */
     .pokedex-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
     }
 
     .poke-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.2rem;
+      padding: 1rem;
       text-align: center;
       transition: transform 0.2s, border-color 0.2s;
     }
@@ -119,102 +120,103 @@
     }
 
     .poke-name {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       text-transform: capitalize;
       margin: 0.3rem 0;
     }
 
-    .type-badge {
-      display: inline-block;
-      background: var(--primary);
-      padding: 0.2rem 0.6rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
+    .load-more-btn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 2rem auto;
+      padding: 0.8rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: bold;
-      margin: 0.2rem;
+      color: #121214;
+      cursor: pointer;
     }
 
-    /* Layout: Qual Pokémon é o seu */
-    .partner-section {
+    /* Estilos do Comparador */
+    .compare-form {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .compare-form input {
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+      width: 250px;
+    }
+
+    .compare-btn {
+      padding: 0.8rem 1.5rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #121214;
+      cursor: pointer;
+    }
+
+    .compare-result {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
       background: var(--card-bg);
       border-radius: 16px;
       padding: 2rem;
       border: 1px solid var(--border);
-      max-width: 700px;
-      margin: 0 auto;
     }
 
-    .form-group {
-      margin-bottom: 1.2rem;
+    @media (max-width: 768px) {
+      .compare-result {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      color: var(--accent);
+    .fighter-box {
+      text-align: center;
     }
 
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 0.8rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #18181b;
-      color: var(--text);
-      font-size: 1rem;
-    }
-
-    .generate-btn {
-      width: 100%;
-      padding: 0.9rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #121214;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .generate-btn:hover {
-      background: #e6b800;
-    }
-
-    /* Cartão de Treinador */
-    .trainer-card {
-      margin-top: 2rem;
-      background: linear-gradient(135deg, #2a2a30 0%, #18181b 100%);
-      border: 2px solid var(--accent);
-      border-radius: 16px;
-      padding: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .trainer-card img {
+    .fighter-box img {
       width: 160px;
       height: 160px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .stat-row.winner {
+      color: var(--win-color);
+      font-weight: bold;
+    }
+
+    .total-score {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
       padding: 0.5rem;
+      background: #18181b;
+      border-radius: 8px;
     }
 
-    .trainer-info h3 {
-      font-size: 1.8rem;
-      color: var(--accent);
-    }
-
-    .trainer-info p {
-      color: var(--subtext);
-      margin-top: 0.4rem;
-    }
-
-    /* Mais Fortes & História */
+    /* Grid dos Mais Fortes */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -243,6 +245,7 @@
       margin-bottom: 0.8rem;
     }
 
+    /* História */
     .timeline-item {
       background: var(--card-bg);
       border-left: 4px solid var(--primary);
@@ -256,61 +259,42 @@
 
   <header>
     <h1>Mundo Pokémon</h1>
-    <p>Pokédex Automática, Descubra seu Parceiro & Lore Primordial</p>
+    <p>Pokédex em Sequência, Comparador de Força & Lore Primordial</p>
   </header>
 
   <nav>
-    <button class="active" onclick="switchTab('pokedex')">Pokédex</button>
-    <button onclick="switchTab('partner')">Qual Pokémon seria o seu?</button>
+    <button class="active" onclick="switchTab('pokedex')">Pokédex Sequencial</button>
+    <button onclick="switchTab('comparator')">Comparar Pokémon</button>
     <button onclick="switchTab('strongest')">Os Mais Fortes</button>
     <button onclick="switchTab('history')">História & Lore</button>
   </nav>
 
   <div class="container">
     
-    <!-- ABA POKÉDEX AUTOMÁTICA -->
+    <!-- ABA POKÉDEX SEQUENCIAL -->
     <section id="pokedex" class="tab-content active">
-      <h2 style="margin-bottom: 1.5rem;">Catálogo Pokédex</h2>
-      <div id="pokedexContainer" class="pokedex-grid">
-        <p style="color: var(--subtext);">Carregando Pokédex...</p>
-      </div>
+      <h2 style="margin-bottom: 1.5rem;">Pokédex Completa (em Ordem)</h2>
+      <div id="pokedexContainer" class="pokedex-grid"></div>
+      <button id="loadMoreBtn" class="load-more-btn" onclick="loadMorePokemon()">Carregar Mais Pokémon</button>
     </section>
 
-    <!-- ABA SEU POKÉMON -->
-    <section id="partner" class="tab-content">
-      <div class="partner-section">
-        <h2 style="color: var(--accent); margin-bottom: 0.5rem;">Monte seu Cartão de Treinador</h2>
-        <p style="color: var(--subtext); margin-bottom: 1.5rem;">Descubra e exiba qual Pokémon combina com a sua personalidade!</p>
-        
-        <div class="form-group">
-          <label for="trainerName">Seu Nome de Treinador(a):</label>
-          <input type="text" id="trainerName" placeholder="Ex: Ash Ketchum">
-        </div>
+    <!-- ABA COMPARADOR -->
+    <section id="comparator" class="tab-content">
+      <h2 style="margin-bottom: 0.5rem; text-align: center;">Comparador de Atributos</h2>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare o poder base de dois Pokémon para ver quem leva a melhor no combate!</p>
+      
+      <div class="compare-form">
+        <input type="text" id="poke1Input" placeholder="Pokémon 1 (ex: charizard, 6)" value="charizard">
+        <span style="align-self: center; font-weight: bold; color: var(--accent);">VS</span>
+        <input type="text" id="poke2Input" placeholder="Pokémon 2 (ex: blastoise, 9)" value="blastoise">
+        <button class="compare-btn" onclick="comparePokemon()">Comparar Força</button>
+      </div>
 
-        <div class="form-group">
-          <label for="elementSelect">Qual seu estilo de batalha?</label>
-          <select id="elementSelect">
-            <option value="pikachu">Agressivo e Rápido (Elétrico)</option>
-            <option value="charizard">Poderoso e Impulsivo (Fogo)</option>
-            <option value="lucario">Leal e Focado na Aura (Lutador)</option>
-            <option value="gengar">Estratégico e Mágico (Fantasma)</option>
-            <option value="mewtwo">Analítico e Reservado (Psíquico)</option>
-            <option value="eevee">Adaptável e Flexível (Normal)</option>
-          </select>
-        </div>
-
-        <button class="generate-btn" onclick="generatePartnerCard()">Gerar Meu Cartão Pokémon</button>
-
-        <!-- Resultado do Cartão -->
-        <div id="trainerCardDisplay" style="display: none;" class="trainer-card">
-          <img id="partnerImg" src="" alt="Seu Pokémon">
-          <div class="trainer-info">
-            <h3 id="cardTrainerName">Treinador</h3>
-            <p><strong>Pokémon Parceiro:</strong> <span id="partnerName" style="color: #fff; text-transform: capitalize;"></span></p>
-            <p><strong>Sua Afinidade:</strong> <span id="partnerAura" style="color: var(--accent);"></span></p>
-            <p id="partnerDescription" style="font-size: 0.9rem; margin-top: 0.8rem;"></p>
-          </div>
-        </div>
+      <div id="compareResultContainer" class="compare-result" style="display: none;">
+        <!-- Lado 1 -->
+        <div class="fighter-box" id="fighter1"></div>
+        <!-- Lado 2 -->
+        <div class="fighter-box" id="fighter2"></div>
       </div>
     </section>
 
@@ -321,17 +305,17 @@
         <div class="card">
           <h3>1. Arceus</h3>
           <span class="card-tag">O Deus Criador</span>
-          <p>O ser original que criou o universo com seus mil braços. Capaz de alterar seu próprio tipo para qualquer elemento existente.</p>
+          <p>O ser original que criou o universo. Possui o maior poder total entre os Pokémon e altera seu tipo para neutralizar o oponente.</p>
         </div>
         <div class="card">
           <h3>2. Ultra Necrozma</h3>
           <span class="card-tag">Devorador de Luz</span>
-          <p>Absorve a luz de dimensões inteiras para atingir um nível de energia e força destrutiva sem equivalentes.</p>
+          <p>Sua força bruta supera a maioria dos lendários, com estatísticas de ataque psíquico e dracônico devastadoras.</p>
         </div>
         <div class="card">
           <h3>3. Mega Rayquaza</h3>
           <span class="card-tag">Guardião dos Céus</span>
-          <p>Alcança a Megaevolução devorando meteoros na estratosfera. O único poderoso o bastante para parar Kyogre e Groudon.</p>
+          <p>Possui uma das maiores somas de atributos da franquia (780 Base Stats), sendo o ápice do poder ofensivo físico e especial.</p>
         </div>
       </div>
     </section>
@@ -345,46 +329,16 @@
       </div>
       <div class="timeline-item">
         <h3>A Era de Mew</h3>
-        <p>Mew emergiu carregando o código genético de todas as espécies terrenas, tornando-se o ancestral comum de quase todos os Pokémon.</p>
+        <p>Mew emergiu carregando o código genético de todas as espécies terrenas, tornando-se o ancestral comum da Pokédex.</p>
       </div>
     </section>
 
   </div>
 
   <script>
-    // Dados dos parceiros para a aba interativa
-    const partnersData = {
-      pikachu: {
-        id: 25,
-        aura: "Energia Pura & Velocidade",
-        desc: "Você é movido a entusiasmo! Seu parceiro ideal é super dinâmico e nunca deixa você na mão nos momentos decisivos."
-      },
-      charizard: {
-        id: 6,
-        aura: "Chama Intensa & Determinação",
-        desc: "Sua determinação é imparável. Seu parceiro tem um espírito guerreiro que cresce a cada desafio enfrentado."
-      },
-      lucario: {
-        id: 448,
-        aura: "Aura do Guerreiro & Lealdade",
-        desc: "Você valoriza a justiça e a disciplina. Seu parceiro consegue sentir suas emoções e luta em perfeita sintonia com você."
-      },
-      gengar: {
-        id: 94,
-        aura: "Astúcia & Sombras Místicas",
-        desc: "Você adora ter uma carta na manga! Seu parceiro usa a inteligência e o bom humor para surpreender qualquer rival."
-      },
-      mewtwo: {
-        id: 150,
-        aura: "Mente Brilhante & Poder Absoluto",
-        desc: "Sua mente é focada e analítica. Seu parceiro possui o maior potencial psíquico da história, temido por muitos."
-      },
-      eevee: {
-        id: 133,
-        aura: "Potencial Infinito & Adaptabilidade",
-        desc: "Você se adapta a qualquer situação. Seu parceiro possui infinitas possibilidades de evolução para caminhar ao seu lado."
-      }
-    };
+    let currentId = 1;
+    const batchSize = 36;
+    const maxPokemon = 1025; // Total de Pokémon até a 9ª Geração
 
     // Alternar Abas
     function switchTab(tabId) {
@@ -395,60 +349,118 @@
       event.currentTarget.classList.add('active');
     }
 
-    // Carregar Pokédex Automaticamente
-    async function loadPokedex() {
+    // Carregar Pokédex em Sequência
+    function loadMorePokemon() {
       const container = document.getElementById('pokedexContainer');
-      const totalPokemon = 24; // Carrega os primeiros 24 pokémons automaticamente
+      const limit = Math.min(currentId + batchSize - 1, maxPokemon);
 
-      let html = '';
-      for (let i = 1; i <= totalPokemon; i++) {
-        try {
-          const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`);
-          const data = await res.json();
-          
-          const types = data.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join('');
-          const formattedId = `#${String(data.id).padStart(4, '0')}`;
-          const imgUrl = data.sprites.other['official-artwork'].front_default;
+      for (let i = currentId; i <= limit; i++) {
+        const formattedId = `#${String(i).padStart(4, '0')}`;
+        const imgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${i}.png`;
 
-          html += `
-            <div class="poke-card">
-              <span class="poke-id">${formattedId}</span>
-              <img src="${imgUrl}" alt="${data.name}">
-              <h3 class="poke-name">${data.name}</h3>
-              <div>${types}</div>
-            </div>
-          `;
-        } catch (err) {
-          console.error(err);
-        }
+        const card = document.createElement('div');
+        card.className = 'poke-card';
+        card.innerHTML = `
+          <span class="poke-id">${formattedId}</span>
+          <img src="${imgUrl}" alt="Pokemon ${i}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png'">
+          <h3 class="poke-name" id="poke-name-${i}">Carregando...</h3>
+        `;
+        container.appendChild(card);
+
+        // Busca o nome oficial do Pokémon
+        fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+          .then(res => res.json())
+          .then(data => {
+            const nameEl = document.getElementById(`poke-name-${i}`);
+            if (nameEl) nameEl.innerText = data.name;
+          })
+          .catch(() => {});
       }
-      container.innerHTML = html;
+
+      currentId = limit + 1;
+      if (currentId > maxPokemon) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
     }
 
-    // Gerar Cartão de Treinador
-    async function generatePartnerCard() {
-      const nameInput = document.getElementById('trainerName').value.trim();
-      const choice = document.getElementById('elementSelect').value;
-      const cardDisplay = document.getElementById('trainerCardDisplay');
+    // Comparador de Pokémon
+    async function comparePokemon() {
+      const input1 = document.getElementById('poke1Input').value.toLowerCase().trim();
+      const input2 = document.getElementById('poke2Input').value.toLowerCase().trim();
+      const resultContainer = document.getElementById('compareResultContainer');
 
-      const name = nameInput ? nameInput : "Treinador Sem Nome";
-      const partnerInfo = partnersData[choice];
+      if (!input1 || !input2) return;
 
-      // Busca imagem oficial na PokéAPI
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${partnerInfo.id}`);
-      const data = await res.json();
+      try {
+        const [p1, p2] = await Promise.all([
+          fetch(`https://pokeapi.co/api/v2/pokemon/${input1}`).then(r => r.json()),
+          fetch(`https://pokeapi.co/api/v2/pokemon/${input2}`).then(r => r.json())
+        ]);
 
-      document.getElementById('cardTrainerName').innerText = name;
-      document.getElementById('partnerName').innerText = data.name;
-      document.getElementById('partnerImg').src = data.sprites.other['official-artwork'].front_default;
-      document.getElementById('partnerAura').innerText = partnerInfo.aura;
-      document.getElementById('partnerDescription').innerText = partnerInfo.desc;
+        const stats1 = getStatsObject(p1.stats);
+        const stats2 = getStatsObject(p2.stats);
 
-      cardDisplay.style.display = 'flex';
+        renderFighter('fighter1', p1, stats1, stats2);
+        renderFighter('fighter2', p2, stats2, stats1);
+
+        resultContainer.style.display = 'grid';
+      } catch (err) {
+        alert('Pokémon não encontrado. Verifique os nomes digitados!');
+      }
     }
 
-    // Iniciar Pokédex ao carregar a página
-    window.onload = loadPokedex;
+    function getStatsObject(statsArray) {
+      const stats = {};
+      let total = 0;
+      statsArray.forEach(s => {
+        stats[s.stat.name] = s.base_stat;
+        total += s.base_stat;
+      });
+      stats.total = total;
+      return stats;
+    }
+
+    function renderFighter(elementId, poke, myStats, opponentStats) {
+      const box = document.getElementById(elementId);
+      const isTotalWinner = myStats.total > opponentStats.total;
+      const imgUrl = poke.sprites.other['official-artwork'].front_default || poke.sprites.front_default;
+
+      box.innerHTML = `
+        <h2 style="text-transform: capitalize;">${poke.name}</h2>
+        <p style="color: var(--subtext);">#${poke.id}</p>
+        <img src="${imgUrl}" alt="${poke.name}">
+        
+        <div style="margin-top: 1rem;">
+          ${renderStatRow('HP', myStats.hp, opponentStats.hp)}
+          ${renderStatRow('Ataque', myStats.attack, opponentStats.attack)}
+          ${renderStatRow('Defesa', myStats.defense, opponentStats.defense)}
+          ${renderStatRow('Atq. Especial', myStats['special-attack'], opponentStats['special-attack'])}
+          ${renderStatRow('Def. Especial', myStats['special-defense'], opponentStats['special-defense'])}
+          ${renderStatRow('Velocidade', myStats.speed, opponentStats.speed)}
+        </div>
+
+        <div class="total-score" style="border: 2px solid ${isTotalWinner ? 'var(--win-color)' : 'var(--border)'};">
+          Total Base Stats: ${myStats.total}
+          ${isTotalWinner ? '<br><span style="color: var(--win-color); font-size: 0.9rem;">★ MAIS FORTE NO GERAL ★</span>' : ''}
+        </div>
+      `;
+    }
+
+    function renderStatRow(label, myVal, oppVal) {
+      const isWin = myVal > oppVal;
+      return `
+        <div class="stat-row ${isWin ? 'winner' : ''}">
+          <span>${label}:</span>
+          <span>${myVal} ${isWin ? '▲' : ''}</span>
+        </div>
+      `;
+    }
+
+    // Inicialização ao carregar a página
+    window.onload = () => {
+      loadMorePokemon();
+      comparePokemon(); // Executa uma comparação inicial padrão (Charizard vs Blastoise)
+    };
   </script>
 </body>
 </html>
