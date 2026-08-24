@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Pokémon: Pokédex & Lore</title>
+  <style>
+    :root {
+      --bg-color: #121214;
+      --card-bg: #202024;
+      --primary: #e3350d;
+      --accent: #ffcb05;
+      --text: #ffffff;
+      --subtext: #a8a8b3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary);
+      text-align: center;
+      padding: 2rem 1rem;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background: #1a1a1e;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav button {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--text);
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    nav button:hover, nav button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Buscador e Pokédex */
+    .search-box {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .search-box input {
+      padding: 0.8rem 1rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #323238;
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .search-box button {
+      padding: 0.8rem 1.5rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #121214;
+      cursor: pointer;
+    }
+
+    .pokemon-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      border: 1px solid #323238;
+    }
+
+    .pokemon-card img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .types {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .type-badge {
+      background: var(--primary);
+      padding: 0.2rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    /* Grid dos Mais Fortes */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #323238;
+    }
+
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-tag {
+      display: inline-block;
+      background: #323238;
+      color: var(--subtext);
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Seção de História */
+    .timeline-item {
+      background: var(--card-bg);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .timeline-item h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mundo Pokémon</h1>
+    <p>Enciclopédia de Espécies, Lore Primordial e os Seres Mais Poderosos</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="switchTab('pokedex')">Pokédex</button>
+    <button onclick="switchTab('strongest')">Os Mais Fortes</button>
+    <button onclick="switchTab('history')">História & Origem</button>
+  </nav>
+
+  <div class="container">
+    
+    <!-- ABA POKÉDEX -->
+    <section id="pokedex" class="tab-content active">
+      <div class="search-box">
+        <input type="text" id="pokemonInput" placeholder="Digite o nome ou ID (ex: lucario, 150, gengar)...">
+        <button onclick="searchPokemon()">Buscar</button>
+      </div>
+
+      <div id="pokedexResult">
+        <div class="pokemon-card">
+          <p style="color: var(--subtext);">Pesquise um Pokémon acima para ver seus detalhes e história!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA SERES MAIS FORTES -->
+    <section id="strongest" class="tab-content">
+      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos do Universo</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>1. Arceus</h3>
+          <span class="card-tag">O Deus Criador</span>
+          <p>Conhecido como "O Original", Arceus emergiu de um ovo no nada e moldou todo o universo Pokémon com seus mil braços. Possui a habilidade de mudar para qualquer tipo existente.</p>
+        </div>
+        <div class="card">
+          <h3>2. Ultra Necrozma</h3>
+          <span class="card-tag">O Devorador de Luz</span>
+          <p>Em sua forma verdadeira, Necrozma absorveu a luz de uma dimensão inteira. Seu poder atinge níveis incomparáveis, superando lendários convencionais em força bruta.</p>
+        </div>
+        <div class="card">
+          <h3>3. Mega Rayquaza</h3>
+          <span class="card-tag">O Guardião dos Céus</span>
+          <p>Não precisa de uma Pedra Chave para Megaevoluir; ele alcança esse estado ao devorar meteoritos na camada de ozônio. É o único capaz de apaziguar Kyogre e Groudon simultaneamente.</p>
+        </div>
+        <div class="card">
+          <h3>4. Dialga & Palkia</h3>
+          <span class="card-tag">Tempo e Espaço</span>
+          <p>Criados diretamente por Arceus. O batimento cardíaco de Dialga faz o tempo fluir, enquanto a respiração de Palkia estabiliza as dimensões do espaço.</p>
+        </div>
+        <div class="card">
+          <h3>5. Mewtwo</h3>
+          <span class="card-tag">O Pokémon Genético</span>
+          <p>Criado via engenharia genética a partir do DNA de Mew, Mewtwo foi projetado para ser a máquina de combate definitiva, com habilidades psíquicas devastadoras.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA HISTÓRIA E ORIGEM -->
+    <section id="history" class="tab-content">
+      <h2 style="margin-bottom: 1.5rem;">Linha do Tempo e Origem do Mundo</h2>
+      
+      <div class="timeline-item">
+        <h3>A Criação (Era Primordial)</h3>
+        <p>No início, existia apenas o caos. Do centro desse vazio, nasceu Arceus. Logo após, Arceus criou o Trio da Criação: Dialga (Tempo), Palkia (Espaço) e Giratina (Antimatéria). Para trazer sentimentos e conhecimento ao mundo, criou o Trio dos Lagos (Uxie, Mesprit e Azelf).</p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Formação do Planeta</h3>
+        <p>Groudon emergiu das profundezas da terra para erguer os continentes, enquanto Kyogre preencheu os oceanos através de chuvas torrenciais. O conflito destrutivo entre ambos quase destruiu o planeta, até que Rayquaza interveio e os adormeceu.</p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Surgimento das Espécies e Megaevolução</h3>
+        <p>Mew surge como o ancestral comum de quase todos os Pokémon não-lendários. Milênios depois, o impacto de meteoritos energizados por energia vital deu origem às Pedras de Megaevolução na região de Kalos, alterando a biologia de diversas espécies.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Controle de Abas
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Busca na PokéAPI
+    async function searchPokemon() {
+      const input = document.getElementById('pokemonInput').value.toLowerCase().trim();
+      const resultDiv = document.getElementById('pokedexResult');
+
+      if (!input) return;
+
+      resultDiv.innerHTML = `<div class="pokemon-card"><p>Carregando dados da Pokédex...</p></div>`;
+
+      try {
+        // Busca dados do Pokémon
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
+        if (!response.ok) throw new Error('Pokémon não encontrado');
+        const data = await response.json();
+
+        // Busca descrição em português/inglês (Espécie)
+        const speciesResponse = await fetch(data.species.url);
+        const speciesData = await speciesResponse.json();
+        
+        const entry = speciesData.flavor_text_entries.find(e => e.language.name === 'pt-BR') || 
+                      speciesData.flavor_text_entries.find(e => e.language.name === 'en');
+
+        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Descrição não disponível.';
+
+        // Renderiza o card
+        resultDiv.innerHTML = `
+          <div class="pokemon-card">
+            <h2>#${data.id} - ${data.name.toUpperCase()}</h2>
+            <img src="${data.sprites.other['official-artwork'].front_default || data.sprites.front_default}" alt="${data.name}">
+            <div class="types">
+              ${data.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join('')}
+            </div>
+            <p style="margin-top: 1rem; color: #e1e1e6;"><strong>História / Registro:</strong></p>
+            <p style="color: var(--subtext); font-style: italic; margin-top: 0.5rem;">"${description}"</p>
+            
+            <div style="margin-top: 1.5rem; text-align: left; font-size: 0.9rem;">
+              <p><strong>Altura:</strong> ${data.height / 10} m</p>
+              <p><strong>Peso:</strong> ${data.weight / 10} kg</p>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="pokemon-card">
+            <p style="color: #e3350d;">Pokémon não encontrado. Verifique a ortografia e tente novamente!</p>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
