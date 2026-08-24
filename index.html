@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Pokémon: Pokédex Completa & Comparador</title>
+  <title>Mundo Pokémon: Pokédex Completa, Detalhes & Comparador</title>
   <style>
     :root {
       --bg-color: #121214;
@@ -86,7 +86,7 @@
       display: block;
     }
 
-    /* Grid da Pokédex */
+    /* Grid Pokédex */
     .pokedex-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -100,6 +100,7 @@
       padding: 1rem;
       text-align: center;
       transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
     }
 
     .poke-card:hover {
@@ -125,6 +126,17 @@
       margin: 0.3rem 0;
     }
 
+    .type-badge {
+      display: inline-block;
+      background: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 0.2rem;
+    }
+
     .load-more-btn {
       display: block;
       width: 100%;
@@ -140,7 +152,50 @@
       cursor: pointer;
     }
 
-    /* Estilos do Comparador */
+    /* Modal / Popup de Descrição */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--subtext);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: var(--text);
+    }
+
+    /* Comparador */
     .compare-form {
       display: flex;
       gap: 1rem;
@@ -216,7 +271,7 @@
       border-radius: 8px;
     }
 
-    /* Grid dos Mais Fortes */
+    /* Outras abas */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -245,7 +300,6 @@
       margin-bottom: 0.8rem;
     }
 
-    /* História */
     .timeline-item {
       background: var(--card-bg);
       border-left: 4px solid var(--primary);
@@ -259,7 +313,7 @@
 
   <header>
     <h1>Mundo Pokémon</h1>
-    <p>Pokédex em Sequência, Comparador de Força & Lore Primordial</p>
+    <p>Clique em qualquer Pokémon para ver sua história e detalhes</p>
   </header>
 
   <nav>
@@ -273,7 +327,7 @@
     
     <!-- ABA POKÉDEX SEQUENCIAL -->
     <section id="pokedex" class="tab-content active">
-      <h2 style="margin-bottom: 1.5rem;">Pokédex Completa (em Ordem)</h2>
+      <h2 style="margin-bottom: 1.5rem;">Pokédex (Clique em um Pokémon)</h2>
       <div id="pokedexContainer" class="pokedex-grid"></div>
       <button id="loadMoreBtn" class="load-more-btn" onclick="loadMorePokemon()">Carregar Mais Pokémon</button>
     </section>
@@ -281,7 +335,7 @@
     <!-- ABA COMPARADOR -->
     <section id="comparator" class="tab-content">
       <h2 style="margin-bottom: 0.5rem; text-align: center;">Comparador de Atributos</h2>
-      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare o poder base de dois Pokémon para ver quem leva a melhor no combate!</p>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare a força base entre dois Pokémon!</p>
       
       <div class="compare-form">
         <input type="text" id="poke1Input" placeholder="Pokémon 1 (ex: charizard, 6)" value="charizard">
@@ -291,9 +345,7 @@
       </div>
 
       <div id="compareResultContainer" class="compare-result" style="display: none;">
-        <!-- Lado 1 -->
         <div class="fighter-box" id="fighter1"></div>
-        <!-- Lado 2 -->
         <div class="fighter-box" id="fighter2"></div>
       </div>
     </section>
@@ -305,42 +357,49 @@
         <div class="card">
           <h3>1. Arceus</h3>
           <span class="card-tag">O Deus Criador</span>
-          <p>O ser original que criou o universo. Possui o maior poder total entre os Pokémon e altera seu tipo para neutralizar o oponente.</p>
+          <p>O ser original que criou o universo. Possui o maior poder total e altera seu tipo para neutralizar qualquer inimigo.</p>
         </div>
         <div class="card">
           <h3>2. Ultra Necrozma</h3>
           <span class="card-tag">Devorador de Luz</span>
-          <p>Sua força bruta supera a maioria dos lendários, com estatísticas de ataque psíquico e dracônico devastadoras.</p>
+          <p>Absorve a luz de dimensões inteiras para elevar sua energia a níveis destrutivos imensuráveis.</p>
         </div>
         <div class="card">
           <h3>3. Mega Rayquaza</h3>
           <span class="card-tag">Guardião dos Céus</span>
-          <p>Possui uma das maiores somas de atributos da franquia (780 Base Stats), sendo o ápice do poder ofensivo físico e especial.</p>
+          <p>Alcança a Megaevolução devorando meteoros na estratosfera, superando a força de outros lendários primordiais.</p>
         </div>
       </div>
     </section>
 
     <!-- ABA HISTÓRIA -->
     <section id="history" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">Origem do Mundo Pokémon</h2>
+      <h2 style="margin-bottom: 1.5rem;">Origem do Universo Pokémon</h2>
       <div class="timeline-item">
         <h3>A Criação Primordial</h3>
-        <p>No início existia apenas o caos. Arceus nasceu e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
+        <p>No início existia apenas o caos. Arceus nasceu de um ovo primordial e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
       </div>
       <div class="timeline-item">
         <h3>A Era de Mew</h3>
-        <p>Mew emergiu carregando o código genético de todas as espécies terrenas, tornando-se o ancestral comum da Pokédex.</p>
+        <p>Mew emergiu contendo o código genético de todas as espécies terrenas, sendo o ancestral biológico de quase todos os Pokémon.</p>
       </div>
     </section>
 
   </div>
 
+  <!-- JANELA POPUP (MODAL) DE DETALHES -->
+  <div id="pokeModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
   <script>
     let currentId = 1;
     const batchSize = 36;
-    const maxPokemon = 1025; // Total de Pokémon até a 9ª Geração
+    const maxPokemon = 1025;
 
-    // Alternar Abas
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
@@ -349,7 +408,7 @@
       event.currentTarget.classList.add('active');
     }
 
-    // Carregar Pokédex em Sequência
+    // Carregar Pokédex
     function loadMorePokemon() {
       const container = document.getElementById('pokedexContainer');
       const limit = Math.min(currentId + batchSize - 1, maxPokemon);
@@ -360,6 +419,7 @@
 
         const card = document.createElement('div');
         card.className = 'poke-card';
+        card.setAttribute('onclick', `openPokemonModal(${i})`);
         card.innerHTML = `
           <span class="poke-id">${formattedId}</span>
           <img src="${imgUrl}" alt="Pokemon ${i}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png'">
@@ -367,7 +427,6 @@
         `;
         container.appendChild(card);
 
-        // Busca o nome oficial do Pokémon
         fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
           .then(res => res.json())
           .then(data => {
@@ -383,7 +442,62 @@
       }
     }
 
-    // Comparador de Pokémon
+    // Abrir Modal de História/Descrição do Pokémon
+    async function openPokemonModal(id) {
+      const modal = document.getElementById('pokeModal');
+      const modalBody = document.getElementById('modalBody');
+      
+      modal.style.display = 'flex';
+      modalBody.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--subtext);">Buscando arquivos da Pokédex...</p>';
+
+      try {
+        const [pokeRes, speciesRes] = await Promise.all([
+          fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json()),
+          fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`).then(r => r.json())
+        ]);
+
+        // Busca descrição em português, espanhol ou inglês
+        const entry = speciesRes.flavor_text_entries.find(e => e.language.name === 'pt-BR') ||
+                      speciesRes.flavor_text_entries.find(e => e.language.name === 'es') ||
+                      speciesRes.flavor_text_entries.find(e => e.language.name === 'en');
+
+        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Registro de descrição não disponível no momento.';
+        const types = pokeRes.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join(' ');
+        const imgUrl = pokeRes.sprites.other['official-artwork'].front_default || pokeRes.sprites.front_default;
+
+        modalBody.innerHTML = `
+          <div style="text-align: center;">
+            <span style="color: var(--subtext); font-weight: bold; font-size: 0.9rem;">#${String(pokeRes.id).padStart(4, '0')}</span>
+            <h2 style="text-transform: capitalize; margin-bottom: 0.5rem; color: var(--accent);">${pokeRes.name}</h2>
+            <img src="${imgUrl}" alt="${pokeRes.name}" style="width: 180px; height: 180px; object-fit: contain;">
+            <div style="margin: 0.8rem 0;">${types}</div>
+            
+            <div style="background: #18181b; padding: 1.2rem; border-radius: 12px; margin: 1.2rem 0; text-align: left; border: 1px solid var(--border);">
+              <h4 style="color: var(--accent); margin-bottom: 0.4rem;">📖 História & Descrição</h4>
+              <p style="color: #e1e1e6; font-style: italic; font-size: 0.95rem;">"${description}"</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; background: #18181b; padding: 0.8rem; border-radius: 12px; font-size: 0.9rem; border: 1px solid var(--border);">
+              <div><strong>Altura:</strong> ${(pokeRes.height / 10).toFixed(1)} m</div>
+              <div><strong>Peso:</strong> ${(pokeRes.weight / 10).toFixed(1)} kg</div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        modalBody.innerHTML = '<p style="color: var(--primary); text-align: center;">Não foi possível carregar os detalhes deste Pokémon.</p>';
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('pokeModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('pokeModal');
+      if (event.target === modal) closeModal();
+    };
+
+    // Comparador
     async function comparePokemon() {
       const input1 = document.getElementById('poke1Input').value.toLowerCase().trim();
       const input2 = document.getElementById('poke2Input').value.toLowerCase().trim();
@@ -405,7 +519,7 @@
 
         resultContainer.style.display = 'grid';
       } catch (err) {
-        alert('Pokémon não encontrado. Verifique os nomes digitados!');
+        alert('Pokémon não encontrado. Verifique a grafia!');
       }
     }
 
@@ -456,10 +570,9 @@
       `;
     }
 
-    // Inicialização ao carregar a página
     window.onload = () => {
       loadMorePokemon();
-      comparePokemon(); // Executa uma comparação inicial padrão (Charizard vs Blastoise)
+      comparePokemon();
     };
   </script>
 </body>
