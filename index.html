@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Pokémon: Pokédex Completa, Detalhes & Comparador</title>
+  <title>Mundo Pokémon: Pokédex, Comparador & Evoluções</title>
   <style>
     :root {
       --bg-color: #121214;
@@ -152,7 +152,53 @@
       cursor: pointer;
     }
 
-    /* Modal / Popup de Descrição */
+    /* ESTILOS DA ABA ??? (EVOLUÇÕES) */
+    .evo-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+      min-height: 250px;
+      align-items: center;
+    }
+
+    .evo-node-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .evo-card {
+      background: #18181b;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    .evo-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    .evo-arrow {
+      font-size: 1.5rem;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .evo-children {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Modal / Popup */
     .modal {
       display: none;
       position: fixed;
@@ -177,7 +223,6 @@
       max-height: 85vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .close-btn {
@@ -188,15 +233,10 @@
       font-weight: bold;
       color: var(--subtext);
       cursor: pointer;
-      transition: color 0.2s;
     }
 
-    .close-btn:hover {
-      color: var(--text);
-    }
-
-    /* Comparador */
-    .compare-form {
+    /* Form Básico */
+    .search-form {
       display: flex;
       gap: 1rem;
       justify-content: center;
@@ -204,7 +244,7 @@
       flex-wrap: wrap;
     }
 
-    .compare-form input {
+    .search-form input {
       padding: 0.8rem 1rem;
       border-radius: 8px;
       border: 1px solid var(--border);
@@ -214,7 +254,7 @@
       width: 250px;
     }
 
-    .compare-btn {
+    .action-btn {
       padding: 0.8rem 1.5rem;
       background: var(--accent);
       border: none;
@@ -224,6 +264,7 @@
       cursor: pointer;
     }
 
+    /* Comparador */
     .compare-result {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -235,19 +276,11 @@
     }
 
     @media (max-width: 768px) {
-      .compare-result {
-        grid-template-columns: 1fr;
-      }
+      .compare-result { grid-template-columns: 1fr; }
     }
 
-    .fighter-box {
-      text-align: center;
-    }
-
-    .fighter-box img {
-      width: 160px;
-      height: 160px;
-    }
+    .fighter-box { text-align: center; }
+    .fighter-box img { width: 160px; height: 160px; }
 
     .stat-row {
       display: flex;
@@ -271,7 +304,7 @@
       border-radius: 8px;
     }
 
-    /* Outras abas */
+    /* Outras Abas */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -285,10 +318,7 @@
       border: 1px solid var(--border);
     }
 
-    .card h3 {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
+    .card h3 { color: var(--accent); margin-bottom: 0.5rem; }
 
     .card-tag {
       display: inline-block;
@@ -313,11 +343,12 @@
 
   <header>
     <h1>Mundo Pokémon</h1>
-    <p>Clique em qualquer Pokémon para ver sua história e detalhes</p>
+    <p>Pokédex, Árvore Evolutiva, Comparador & Lore Primordial</p>
   </header>
 
   <nav>
     <button class="active" onclick="switchTab('pokedex')">Pokédex Sequencial</button>
+    <button onclick="switchTab('evolutions')">???</button>
     <button onclick="switchTab('comparator')">Comparar Pokémon</button>
     <button onclick="switchTab('strongest')">Os Mais Fortes</button>
     <button onclick="switchTab('history')">História & Lore</button>
@@ -325,23 +356,38 @@
 
   <div class="container">
     
-    <!-- ABA POKÉDEX SEQUENCIAL -->
+    <!-- ABA POKÉDEX -->
     <section id="pokedex" class="tab-content active">
-      <h2 style="margin-bottom: 1.5rem;">Pokédex (Clique em um Pokémon)</h2>
+      <h2 style="margin-bottom: 1.5rem;">Pokédex (Clique para Detalhes)</h2>
       <div id="pokedexContainer" class="pokedex-grid"></div>
       <button id="loadMoreBtn" class="load-more-btn" onclick="loadMorePokemon()">Carregar Mais Pokémon</button>
+    </section>
+
+    <!-- ABA ??? (LINHAS EVOLUTIVAS) -->
+    <section id="evolutions" class="tab-content">
+      <h2 style="margin-bottom: 0.5rem; text-align: center;">??? - Cadeia de Evolução</h2>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Pesquise qualquer Pokémon para ver todas as suas etapas e ramificações de evolução!</p>
+      
+      <div class="search-form">
+        <input type="text" id="evoInput" placeholder="Ex: eevee, charmander, ralts, wurmple" value="eevee">
+        <button class="action-btn" onclick="searchEvolution()">Ver Evoluções</button>
+      </div>
+
+      <div id="evoResultContainer" class="evo-container">
+        <p style="color: var(--subtext);">Carregando evolução inicial...</p>
+      </div>
     </section>
 
     <!-- ABA COMPARADOR -->
     <section id="comparator" class="tab-content">
       <h2 style="margin-bottom: 0.5rem; text-align: center;">Comparador de Atributos</h2>
-      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare a força base entre dois Pokémon!</p>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare o poder base de dois Pokémon!</p>
       
-      <div class="compare-form">
+      <div class="search-form">
         <input type="text" id="poke1Input" placeholder="Pokémon 1 (ex: charizard, 6)" value="charizard">
         <span style="align-self: center; font-weight: bold; color: var(--accent);">VS</span>
         <input type="text" id="poke2Input" placeholder="Pokémon 2 (ex: blastoise, 9)" value="blastoise">
-        <button class="compare-btn" onclick="comparePokemon()">Comparar Força</button>
+        <button class="action-btn" onclick="comparePokemon()">Comparar Força</button>
       </div>
 
       <div id="compareResultContainer" class="compare-result" style="display: none;">
@@ -357,37 +403,37 @@
         <div class="card">
           <h3>1. Arceus</h3>
           <span class="card-tag">O Deus Criador</span>
-          <p>O ser original que criou o universo. Possui o maior poder total e altera seu tipo para neutralizar qualquer inimigo.</p>
+          <p>O ser original que criou o universo com seus mil braços. Capaz de mudar seu tipo para anular ataques inimigos.</p>
         </div>
         <div class="card">
           <h3>2. Ultra Necrozma</h3>
           <span class="card-tag">Devorador de Luz</span>
-          <p>Absorve a luz de dimensões inteiras para elevar sua energia a níveis destrutivos imensuráveis.</p>
+          <p>Absorve a luz de dimensões inteiras para liberar uma energia destrutiva incomparável.</p>
         </div>
         <div class="card">
           <h3>3. Mega Rayquaza</h3>
           <span class="card-tag">Guardião dos Céus</span>
-          <p>Alcança a Megaevolução devorando meteoros na estratosfera, superando a força de outros lendários primordiais.</p>
+          <p>Alcança a Megaevolução alimentando-se de meteoros na estratosfera, superando outros lendários.</p>
         </div>
       </div>
     </section>
 
     <!-- ABA HISTÓRIA -->
     <section id="history" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">Origem do Universo Pokémon</h2>
+      <h2 style="margin-bottom: 1.5rem;">Origem do Mundo Pokémon</h2>
       <div class="timeline-item">
         <h3>A Criação Primordial</h3>
-        <p>No início existia apenas o caos. Arceus nasceu de um ovo primordial e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
+        <p>No início existia apenas o caos. Arceus nasceu e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
       </div>
       <div class="timeline-item">
         <h3>A Era de Mew</h3>
-        <p>Mew emergiu contendo o código genético de todas as espécies terrenas, sendo o ancestral biológico de quase todos os Pokémon.</p>
+        <p>Mew emergiu contendo o código genético de todas as espécies terrenas, tornando-se o ancestral biológico de quase todos os Pokémon.</p>
       </div>
     </section>
 
   </div>
 
-  <!-- JANELA POPUP (MODAL) DE DETALHES -->
+  <!-- POPUP DETALHES -->
   <div id="pokeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -408,7 +454,7 @@
       event.currentTarget.classList.add('active');
     }
 
-    // Carregar Pokédex
+    // POKÉDEX SEQUENCIAL
     function loadMorePokemon() {
       const container = document.getElementById('pokedexContainer');
       const limit = Math.min(currentId + batchSize - 1, maxPokemon);
@@ -442,7 +488,7 @@
       }
     }
 
-    // Abrir Modal de História/Descrição do Pokémon
+    // MODAL DE HISTÓRIA DO POKÉMON
     async function openPokemonModal(id) {
       const modal = document.getElementById('pokeModal');
       const modalBody = document.getElementById('modalBody');
@@ -456,12 +502,11 @@
           fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`).then(r => r.json())
         ]);
 
-        // Busca descrição em português, espanhol ou inglês
         const entry = speciesRes.flavor_text_entries.find(e => e.language.name === 'pt-BR') ||
                       speciesRes.flavor_text_entries.find(e => e.language.name === 'es') ||
                       speciesRes.flavor_text_entries.find(e => e.language.name === 'en');
 
-        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Registro de descrição não disponível no momento.';
+        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Registro de descrição não disponível.';
         const types = pokeRes.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join(' ');
         const imgUrl = pokeRes.sprites.other['official-artwork'].front_default || pokeRes.sprites.front_default;
 
@@ -484,7 +529,7 @@
           </div>
         `;
       } catch (err) {
-        modalBody.innerHTML = '<p style="color: var(--primary); text-align: center;">Não foi possível carregar os detalhes deste Pokémon.</p>';
+        modalBody.innerHTML = '<p style="color: var(--primary); text-align: center;">Erro ao carregar detalhes.</p>';
       }
     }
 
@@ -497,7 +542,64 @@
       if (event.target === modal) closeModal();
     };
 
-    // Comparador
+    // LÓGICA DA ABA ??? (LINHAS EVOLUTIVAS)
+    async function searchEvolution() {
+      const input = document.getElementById('evoInput').value.toLowerCase().trim();
+      const container = document.getElementById('evoResultContainer');
+      if (!input) return;
+
+      container.innerHTML = '<p style="text-align: center; color: var(--subtext);">Carregando linha evolutiva...</p>';
+
+      try {
+        const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${input}`).then(r => r.json());
+        const evoRes = await fetch(speciesRes.evolution_chain.url).then(r => r.json());
+
+        container.innerHTML = '';
+        const chainTree = await buildEvoTreeHTML(evoRes.chain);
+        container.appendChild(chainTree);
+      } catch (err) {
+        container.innerHTML = '<p style="color: var(--primary); text-align: center;">Pokémon não encontrado. Verifique o nome digitado!</p>';
+      }
+    }
+
+    async function buildEvoTreeHTML(chainNode) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'evo-node-wrapper';
+
+      try {
+        const pokeRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${chainNode.species.name}`).then(r => r.json());
+        const imgUrl = pokeRes.sprites.other['official-artwork'].front_default || pokeRes.sprites.front_default;
+
+        const card = document.createElement('div');
+        card.className = 'evo-card';
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${chainNode.species.name}">
+          <p style="text-transform: capitalize; font-weight: bold; margin-top: 0.3rem;">${chainNode.species.name}</p>
+          <span style="color: var(--subtext); font-size: 0.8rem;">#${String(pokeRes.id).padStart(4, '0')}</span>
+        `;
+        wrapper.appendChild(card);
+
+        if (chainNode.evolves_to && chainNode.evolves_to.length > 0) {
+          const arrow = document.createElement('div');
+          arrow.className = 'evo-arrow';
+          arrow.innerText = '➔';
+          wrapper.appendChild(arrow);
+
+          const childrenContainer = document.createElement('div');
+          childrenContainer.className = 'evo-children';
+
+          for (const child of chainNode.evolves_to) {
+            const childElement = await buildEvoTreeHTML(child);
+            childrenContainer.appendChild(childElement);
+          }
+          wrapper.appendChild(childrenContainer);
+        }
+      } catch (e) {}
+
+      return wrapper;
+    }
+
+    // COMPARADOR
     async function comparePokemon() {
       const input1 = document.getElementById('poke1Input').value.toLowerCase().trim();
       const input2 = document.getElementById('poke2Input').value.toLowerCase().trim();
@@ -519,7 +621,7 @@
 
         resultContainer.style.display = 'grid';
       } catch (err) {
-        alert('Pokémon não encontrado. Verifique a grafia!');
+        alert('Pokémon não encontrado no comparador!');
       }
     }
 
@@ -572,6 +674,7 @@
 
     window.onload = () => {
       loadMorePokemon();
+      searchEvolution();
       comparePokemon();
     };
   </script>
