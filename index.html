@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Pokémon: Pokédex, Comparador & Evoluções</title>
+  <title>Mundo Pokémon: Pokédex, Evoluções & Mega Evoluções Shiny</title>
   <style>
     :root {
       --bg-color: #121214;
@@ -128,13 +128,14 @@
 
     .type-badge {
       display: inline-block;
-      background: var(--primary);
       padding: 0.2rem 0.6rem;
       border-radius: 12px;
       font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: bold;
       margin: 0.2rem;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
     }
 
     .load-more-btn {
@@ -152,7 +153,49 @@
       cursor: pointer;
     }
 
-    /* ESTILOS DA ABA ??? (EVOLUÇÕES) */
+    /* TABELA DE MEGA EVOLUÇÕES */
+    .table-responsive {
+      overflow-x: auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .mega-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    .mega-table th, .mega-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mega-table th {
+      background-color: #18181b;
+      color: var(--accent);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mega-table tr:hover {
+      background-color: #282830;
+    }
+
+    .mega-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+
+    .mega-img:hover {
+      transform: scale(1.15);
+    }
+
+    /* Árvore Evolutiva (Aba ???) */
     .evo-container {
       background: var(--card-bg);
       border-radius: 16px;
@@ -235,7 +278,7 @@
       cursor: pointer;
     }
 
-    /* Form Básico */
+    /* Formulários e Buscas */
     .search-form {
       display: flex;
       gap: 1rem;
@@ -343,12 +386,13 @@
 
   <header>
     <h1>Mundo Pokémon</h1>
-    <p>Pokédex, Árvore Evolutiva, Comparador & Lore Primordial</p>
+    <p>Enciclopédia Completa, Mega Evoluções Shiny & Lore em Português</p>
   </header>
 
   <nav>
     <button class="active" onclick="switchTab('pokedex')">Pokédex Sequencial</button>
     <button onclick="switchTab('evolutions')">???</button>
+    <button onclick="switchTab('megas')">Mega Evoluções ✨</button>
     <button onclick="switchTab('comparator')">Comparar Pokémon</button>
     <button onclick="switchTab('strongest')">Os Mais Fortes</button>
     <button onclick="switchTab('history')">História & Lore</button>
@@ -358,18 +402,18 @@
     
     <!-- ABA POKÉDEX -->
     <section id="pokedex" class="tab-content active">
-      <h2 style="margin-bottom: 1.5rem;">Pokédex (Clique para Detalhes)</h2>
+      <h2 style="margin-bottom: 1.5rem;">Catálogo Pokédex (Clique para Detalhes)</h2>
       <div id="pokedexContainer" class="pokedex-grid"></div>
       <button id="loadMoreBtn" class="load-more-btn" onclick="loadMorePokemon()">Carregar Mais Pokémon</button>
     </section>
 
     <!-- ABA ??? (LINHAS EVOLUTIVAS) -->
     <section id="evolutions" class="tab-content">
-      <h2 style="margin-bottom: 0.5rem; text-align: center;">??? - Cadeia de Evolução</h2>
-      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Pesquise qualquer Pokémon para ver todas as suas etapas e ramificações de evolução!</p>
+      <h2 style="margin-bottom: 0.5rem; text-align: center;">??? - Linha Evolutiva Completa</h2>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Digite o nome de qualquer Pokémon para ver todas as suas evoluções e ramificações!</p>
       
       <div class="search-form">
-        <input type="text" id="evoInput" placeholder="Ex: eevee, charmander, ralts, wurmple" value="eevee">
+        <input type="text" id="evoInput" placeholder="Ex: eevee, charmander, ralts" value="eevee">
         <button class="action-btn" onclick="searchEvolution()">Ver Evoluções</button>
       </div>
 
@@ -378,10 +422,34 @@
       </div>
     </section>
 
+    <!-- ABA MEGA EVOLUÇÕES SHINY -->
+    <section id="megas" class="tab-content">
+      <h2 style="margin-bottom: 0.5rem; text-align: center;">Tabela Completa de Mega Evoluções</h2>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 1.5rem;">Confira todas as Mega Evoluções comparando as versões Normal e Shiny (Brilhante ✨)</p>
+      
+      <div class="table-responsive">
+        <table class="mega-table">
+          <thead>
+            <tr>
+              <th>Pokémon Mega</th>
+              <th>Tipo(s)</th>
+              <th>Versão Normal</th>
+              <th>Versão Shiny ✨</th>
+            </tr>
+          </thead>
+          <tbody id="megaTableBody">
+            <tr>
+              <td colspan="4" style="color: var(--subtext); padding: 2rem;">Carregando todas as Mega Evoluções...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- ABA COMPARADOR -->
     <section id="comparator" class="tab-content">
       <h2 style="margin-bottom: 0.5rem; text-align: center;">Comparador de Atributos</h2>
-      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare o poder base de dois Pokémon!</p>
+      <p style="color: var(--subtext); text-align: center; margin-bottom: 2rem;">Compare a força base e o poder de combate entre dois Pokémon!</p>
       
       <div class="search-form">
         <input type="text" id="poke1Input" placeholder="Pokémon 1 (ex: charizard, 6)" value="charizard">
@@ -398,36 +466,32 @@
 
     <!-- ABA MAIS FORTES -->
     <section id="strongest" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos</h2>
+      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos do Universo Pokémon</h2>
       <div class="grid">
         <div class="card">
           <h3>1. Arceus</h3>
           <span class="card-tag">O Deus Criador</span>
-          <p>O ser original que criou o universo com seus mil braços. Capaz de mudar seu tipo para anular ataques inimigos.</p>
+          <p>Conhecido como "O Original", emergiu de um ovo no nada e moldou todo o universo com seus mil braços.</p>
         </div>
         <div class="card">
           <h3>2. Ultra Necrozma</h3>
           <span class="card-tag">Devorador de Luz</span>
-          <p>Absorve a luz de dimensões inteiras para liberar uma energia destrutiva incomparável.</p>
+          <p>Em sua forma suprema, absorve a luz de dimensões inteiras. Seu poder destrutivo atinge níveis imensuráveis.</p>
         </div>
         <div class="card">
           <h3>3. Mega Rayquaza</h3>
           <span class="card-tag">Guardião dos Céus</span>
-          <p>Alcança a Megaevolução alimentando-se de meteoros na estratosfera, superando outros lendários.</p>
+          <p>Alcança a Megaevolução devorando meteoros na camada de ozônio, superando quase todos os lendários existentes.</p>
         </div>
       </div>
     </section>
 
     <!-- ABA HISTÓRIA -->
     <section id="history" class="tab-content">
-      <h2 style="margin-bottom: 1.5rem;">Origem do Mundo Pokémon</h2>
+      <h2 style="margin-bottom: 1.5rem;">A História e Origem do Universo</h2>
       <div class="timeline-item">
-        <h3>A Criação Primordial</h3>
-        <p>No início existia apenas o caos. Arceus nasceu e deu origem ao Tempo (Dialga), Espaço (Palkia) e Antimatéria (Giratina).</p>
-      </div>
-      <div class="timeline-item">
-        <h3>A Era de Mew</h3>
-        <p>Mew emergiu contendo o código genético de todas as espécies terrenas, tornando-se o ancestral biológico de quase todos os Pokémon.</p>
+        <h3>A Era da Criação Primordial</h3>
+        <p>No início, existia apenas o caos absoluto. Do centro desse vazio, nasceu Arceus. Para estruturar a realidade, ele criou Dialga, Palkia e Giratina.</p>
       </div>
     </section>
 
@@ -442,6 +506,43 @@
   </div>
 
   <script>
+    // Lista Completa de todas as 48 Mega Evoluções existentes
+    const megaPokemonList = [
+      'venusaur-mega', 'charizard-mega-x', 'charizard-mega-y', 'blastoise-mega',
+      'beedrill-mega', 'pidgeot-mega', 'alakazam-mega', 'slowbro-mega',
+      'gengar-mega', 'kangaskhan-mega', 'pinsir-mega', 'gyarados-mega',
+      'aerodactyl-mega', 'mewtwo-mega-x', 'mewtwo-mega-y', 'ampharos-mega',
+      'steelix-mega', 'scizor-mega', 'heracross-mega', 'houndoom-mega',
+      'tyranitar-mega', 'sceptile-mega', 'blaziken-mega', 'swampert-mega',
+      'gardevoir-mega', 'sableye-mega', 'mawile-mega', 'aggron-mega',
+      'medicham-mega', 'manectric-mega', 'sharpedo-mega', 'camerupt-mega',
+      'altaria-mega', 'banette-mega', 'absol-mega', 'glalie-mega',
+      'salamence-mega', 'metagross-mega', 'latias-mega', 'latios-mega',
+      'rayquaza-mega', 'lopunny-mega', 'garchomp-mega', 'lucario-mega',
+      'abomasnow-mega', 'gallade-mega', 'audino-mega', 'diancie-mega'
+    ];
+
+    const tipostraduzidos = {
+      normal: { nome: 'Normal', cor: '#A8A878' },
+      fire: { nome: 'Fogo', cor: '#F08030' },
+      water: { nome: 'Água', cor: '#6890F0' },
+      grass: { nome: 'Planta', cor: '#78C850' },
+      electric: { nome: 'Elétrico', cor: '#F8D030' },
+      ice: { nome: 'Gelo', cor: '#98D8D8' },
+      fighting: { nome: 'Lutador', cor: '#C03028' },
+      poison: { nome: 'Venenoso', cor: '#A040A0' },
+      ground: { nome: 'Terrestre', cor: '#E0C068' },
+      flying: { nome: 'Voador', cor: '#A890F0' },
+      psychic: { nome: 'Psíquico', cor: '#F85888' },
+      bug: { nome: 'Inseto', cor: '#A8B820' },
+      rock: { nome: 'Pedra', cor: '#B8A038' },
+      ghost: { nome: 'Fantasma', cor: '#705898' },
+      dragon: { nome: 'Dragão', cor: '#7038F8' },
+      dark: { nome: 'Sombrio', cor: '#705848' },
+      steel: { nome: 'Aço', cor: '#B8B8D0' },
+      fairy: { nome: 'Fada', cor: '#EE99AC' }
+    };
+
     let currentId = 1;
     const batchSize = 36;
     const maxPokemon = 1025;
@@ -452,6 +553,41 @@
       
       document.getElementById(tabId).classList.add('active');
       event.currentTarget.classList.add('active');
+    }
+
+    function formatTypeBadge(typeEng) {
+      const info = tipostraduzidos[typeEng] || { nome: typeEng, cor: '#777' };
+      return `<span class="type-badge" style="background-color: ${info.cor};">${info.nome}</span>`;
+    }
+
+    // CARREGAR TABELA DE MEGAS E SHINIES
+    async function loadMegaEvolutions() {
+      const tbody = document.getElementById('megaTableBody');
+      tbody.innerHTML = '';
+
+      for (const megaName of megaPokemonList) {
+        try {
+          const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${megaName}`);
+          const data = await res.json();
+
+          const formattedName = data.name.replace('-', ' ').replace('mega', 'Mega');
+          const types = data.types.map(t => formatTypeBadge(t.type.name)).join(' ');
+          
+          const imgNormal = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+          const imgShiny = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="font-weight: bold; text-transform: capitalize;">${formattedName}</td>
+            <td>${types}</td>
+            <td><img class="mega-img" src="${imgNormal}" alt="${data.name} Normal" loading="lazy"></td>
+            <td><img class="mega-img" src="${imgShiny}" alt="${data.name} Shiny" loading="lazy"></td>
+          `;
+          tbody.appendChild(row);
+        } catch (e) {
+          console.error(`Erro ao carregar ${megaName}`);
+        }
+      }
     }
 
     // POKÉDEX SEQUENCIAL
@@ -506,8 +642,8 @@
                       speciesRes.flavor_text_entries.find(e => e.language.name === 'es') ||
                       speciesRes.flavor_text_entries.find(e => e.language.name === 'en');
 
-        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Registro de descrição não disponível.';
-        const types = pokeRes.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join(' ');
+        const description = entry ? entry.flavor_text.replace(/[\n\f]/g, ' ') : 'Registro de descrição não disponível em português.';
+        const types = pokeRes.types.map(t => formatTypeBadge(t.type.name)).join(' ');
         const imgUrl = pokeRes.sprites.other['official-artwork'].front_default || pokeRes.sprites.front_default;
 
         modalBody.innerHTML = `
@@ -518,7 +654,7 @@
             <div style="margin: 0.8rem 0;">${types}</div>
             
             <div style="background: #18181b; padding: 1.2rem; border-radius: 12px; margin: 1.2rem 0; text-align: left; border: 1px solid var(--border);">
-              <h4 style="color: var(--accent); margin-bottom: 0.4rem;">📖 História & Descrição</h4>
+              <h4 style="color: var(--accent); margin-bottom: 0.4rem;">📖 História & Registro</h4>
               <p style="color: #e1e1e6; font-style: italic; font-size: 0.95rem;">"${description}"</p>
             </div>
 
@@ -529,7 +665,7 @@
           </div>
         `;
       } catch (err) {
-        modalBody.innerHTML = '<p style="color: var(--primary); text-align: center;">Erro ao carregar detalhes.</p>';
+        modalBody.innerHTML = '<p style="color: var(--primary); text-align: center;">Erro ao carregar detalhes do Pokémon.</p>';
       }
     }
 
@@ -542,7 +678,7 @@
       if (event.target === modal) closeModal();
     };
 
-    // LÓGICA DA ABA ??? (LINHAS EVOLUTIVAS)
+    // ABA ??? (CADEIA EVOLUTIVA)
     async function searchEvolution() {
       const input = document.getElementById('evoInput').value.toLowerCase().trim();
       const container = document.getElementById('evoResultContainer');
@@ -558,7 +694,7 @@
         const chainTree = await buildEvoTreeHTML(evoRes.chain);
         container.appendChild(chainTree);
       } catch (err) {
-        container.innerHTML = '<p style="color: var(--primary); text-align: center;">Pokémon não encontrado. Verifique o nome digitado!</p>';
+        container.innerHTML = '<p style="color: var(--primary); text-align: center;">Pokémon não encontrado. Verifique a grafia digitada!</p>';
       }
     }
 
@@ -621,7 +757,7 @@
 
         resultContainer.style.display = 'grid';
       } catch (err) {
-        alert('Pokémon não encontrado no comparador!');
+        alert('Pokémon não encontrado para comparação!');
       }
     }
 
@@ -647,7 +783,7 @@
         <img src="${imgUrl}" alt="${poke.name}">
         
         <div style="margin-top: 1rem;">
-          ${renderStatRow('HP', myStats.hp, opponentStats.hp)}
+          ${renderStatRow('Vida (HP)', myStats.hp, opponentStats.hp)}
           ${renderStatRow('Ataque', myStats.attack, opponentStats.attack)}
           ${renderStatRow('Defesa', myStats.defense, opponentStats.defense)}
           ${renderStatRow('Atq. Especial', myStats['special-attack'], opponentStats['special-attack'])}
@@ -656,7 +792,7 @@
         </div>
 
         <div class="total-score" style="border: 2px solid ${isTotalWinner ? 'var(--win-color)' : 'var(--border)'};">
-          Total Base Stats: ${myStats.total}
+          Atributos Totais: ${myStats.total}
           ${isTotalWinner ? '<br><span style="color: var(--win-color); font-size: 0.9rem;">★ MAIS FORTE NO GERAL ★</span>' : ''}
         </div>
       `;
@@ -676,6 +812,7 @@
       loadMorePokemon();
       searchEvolution();
       comparePokemon();
+      loadMegaEvolutions();
     };
   </script>
 </body>
