@@ -1,4 +1,346 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Pokémon: Pokédex & Lore</title>
+  <style>
+    :root {
+      --bg-color: #121214;
+      --card-bg: #202024;
+      --primary: #e3350d;
+      --accent: #ffcb05;
+      --text: #ffffff;
+      --subtext: #a8a8b3;
+      --border: #323238;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary);
+      text-align: center;
+      padding: 2rem 1rem;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background: #1a1a1e;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav button {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--text);
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    nav button:hover, nav button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Estilização da Tabela Pokédex */
+    .table-responsive {
+      overflow-x: auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #18181b;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    tr:hover {
+      background-color: #29292e;
+    }
+
+    .poke-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .type-badge {
+      display: inline-block;
+      background: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-right: 0.3rem;
+      margin-bottom: 0.2rem;
+    }
+
+    /* Grid dos Mais Fortes */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-tag {
+      display: inline-block;
+      background: var(--border);
+      color: var(--subtext);
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* História */
+    .timeline-item {
+      background: var(--card-bg);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .timeline-item h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mundo Pokémon</h1>
+    <p>Tabela Pokédex, Lore Primordial e os Seres Mais Poderosos</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="switchTab('pokedex')">Tabela Pokédex</button>
+    <button onclick="switchTab('strongest')">Os Mais Fortes</button>
+    <button onclick="switchTab('history')">História & Origem</button>
+  </nav>
+
+  <div class="container">
+    
+    <!-- ABA TABELA POKÉDEX -->
+    <section id="pokedex" class="tab-content active">
+      <h2 style="margin-bottom: 1rem;">Registros da Pokédex</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>#ID</th>
+              <th>Visual</th>
+              <th>Nome</th>
+              <th>Tipo(s)</th>
+              <th>História / Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#0001</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur"></td>
+              <td><strong>Bulbasaur</strong></td>
+              <td><span class="type-badge">Planta</span><span class="type-badge" style="background:#9141ac;">Veneno</span></td>
+              <td>Carrega uma semente nas costas desde o nascimento. À medida que cresce, a semente brota absorvendo os raios solares.</td>
+            </tr>
+            <tr>
+              <td><strong>#0004</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="Charmander"></td>
+              <td><strong>Charmander</strong></td>
+              <td><span class="type-badge">Fogo</span></td>
+              <td>A chama na ponta de sua cauda indica seu estado de saúde e força vital. Se a chama apagar, ele corre sério perigo.</td>
+            </tr>
+            <tr>
+              <td><strong>#0006</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="Charizard"></td>
+              <td><strong>Charizard</strong></td>
+              <td><span class="type-badge">Fogo</span><span class="type-badge" style="background:#89a1f0;">Voador</span></td>
+              <td>Voa pelos céus em busca de oponentes fortes. O fogo intenso de seu sopro derrete pedras e cria grandes queimadas acidentais.</td>
+            </tr>
+            <tr>
+              <td><strong>#0007</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Squirtle"></td>
+              <td><strong>Squirtle</strong></td>
+              <td><span class="type-badge" style="background:#2980b9;">Água</span></td>
+              <td>Sua casca dura protege seu corpo e reduz a resistência na água, permitindo que ele nade em altas velocidades.</td>
+            </tr>
+            <tr>
+              <td><strong>#0025</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu"></td>
+              <td><strong>Pikachu</strong></td>
+              <td><span class="type-badge" style="background:#d4ac0d;">Elétrico</span></td>
+              <td>Armazena eletricidade em suas bolsas nas bochechas. Quando se sente ameaçado, descarrega potentes choques elétricos.</td>
+            </tr>
+            <tr>
+              <td><strong>#0094</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar"></td>
+              <td><strong>Gengar</strong></td>
+              <td><span class="type-badge" style="background:#7d3c98;">Fantasma</span><span class="type-badge" style="background:#9141ac;">Veneno</span></td>
+              <td>Esconde-se nas sombras das pessoas. Quando Gengar está por perto, a temperatura do ambiente cai cerca de 5°C repentinamente.</td>
+            </tr>
+            <tr>
+              <td><strong>#0150</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" alt="Mewtwo"></td>
+              <td><strong>Mewtwo</strong></td>
+              <td><span class="type-badge" style="background:#8e44ad;">Psíquico</span></td>
+              <td>Criado por manipulação genética do DNA de Mew. Sua capacidade de combate foi elevada ao limite, mas faltou-lhe compaixão.</td>
+            </tr>
+            <tr>
+              <td><strong>#0448</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png" alt="Lucario"></td>
+              <td><strong>Lucario</strong></td>
+              <td><span class="type-badge" style="background:#2874a6;">Lutador</span><span class="type-badge" style="background:#7f8c8d;">Aço</span></td>
+              <td>Tem a habilidade de ler as auras de seres vivos a mais de 1 km de distância, compreendendo os pensamentos e sentimentos de outros.</td>
+            </tr>
+            <tr>
+              <td><strong>#0493</strong></td>
+              <td><img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png" alt="Arceus"></td>
+              <td><strong>Arceus</strong></td>
+              <td><span class="type-badge" style="background:#7f8c8d;">Normal</span></td>
+              <td>Conhecido como o Pokémon Original. A mitologia afirma que ele nasceu de um ovo no vazio e moldou o universo inteiro.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA SERES MAIS FORTES -->
+    <section id="strongest" class="tab-content">
+      <h2 style="margin-bottom: 1.5rem;">Os Seres Mais Poderosos da Franquia</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>1. Arceus</h3>
+          <span class="card-tag">O Deus Criador</span>
+          <p>Emergiu de um ovo primordial e moldou o universo com seus mil braços. Capaz de mudar para qualquer tipo e controlar os elementos da criação.</p>
+        </div>
+        <div class="card">
+          <h3>2. Ultra Necrozma</h3>
+          <span class="card-tag">O Devorador de Luz</span>
+          <p>Em sua forma suprema, Necrozma absorve a luz de dimensões inteiras, atingindo níveis de poder que superam lendários comuns.</p>
+        </div>
+        <div class="card">
+          <h3>3. Mega Rayquaza</h3>
+          <span class="card-tag">O Guardião dos Céus</span>
+          <p>Megaevolui ao devorar meteoritos na estratosfera. É o único capaz de conter a fúria simultânea de Kyogre e Groudon.</p>
+        </div>
+        <div class="card">
+          <h3>4. Dialga & Palkia</h3>
+          <span class="card-tag">Senhores do Tempo e Espaço</span>
+          <p>O batimento cardíaco de Dialga faz o tempo fluir, enquanto a respiração de Palkia estabiliza as dimensões do espaço.</p>
+        </div>
+        <div class="card">
+          <h3>5. Mewtwo</h3>
+          <span class="card-tag">O Pokémon Genético</span>
+          <p>Projetado via engenharia genética a partir de Mew para ser a arma psíquica definitiva e insuperável em combate humano/Pokémon.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA HISTÓRIA E ORIGEM -->
+    <section id="history" class="tab-content">
+      <h2 style="margin-bottom: 1.5rem;">História da Criação do Universo</h2>
+      
+      <div class="timeline-item">
+        <h3>A Era da Criação</h3>
+        <p>No início, existia apenas o caos primordial. Do centro desse nada, nasceu Arceus. Logo em seguida, Arceus criou Dialga (Tempo), Palkia (Espaço) e Giratina (Antimatéria). Para equilibrar o espírito dos seres viventes, surgiram Uxie, Mesprit e Azelf.</p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>A Formação da Terra</h3>
+        <p>Groudon emergiu das profundezas para erguer a massa terrestre, enquanto Kyogre preencheu os oceanos. O duelo entre ambos quase destruiu o planeta recém-formado até que Rayquaza interveio para adormecê-los.</p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>A Origem das Espécies</h3>
+        <p>Mew surgiu como o ancestral comum de todas as espécies Pokémon terrestres, contendo o código genético de praticamente todas as criaturas existentes.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
